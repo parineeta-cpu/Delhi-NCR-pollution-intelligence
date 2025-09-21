@@ -46,7 +46,7 @@ const map = L.map('map').setView([28.6139, 77.2090], 10);
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 plugins: {
                     legend: {
                         display: false
@@ -62,7 +62,14 @@ const map = L.map('map').setView([28.6139, 77.2090], 10);
             }
         });
 
-    
+    function toggleMenu() {
+            document.querySelector(".nav-links").classList.toggle("view");
+			console.log("clicked");
+        }
+        const closeBtn = document.querySelector(".remove");
+        closeBtn.addEventListener('click', () => {
+      document.querySelector(".nav-links").classList.remove('view');
+    });
         function selectLocation(location) {
             document.querySelectorAll('.location-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
