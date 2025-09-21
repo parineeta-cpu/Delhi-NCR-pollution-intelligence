@@ -90,6 +90,14 @@ box-shadow: 1px 0.5px 3px gray;
 border-radius: 2px;
 font-size:15px;
 }
+.submitBtn{
+    margin-bottom:20px;
+    padding:6px 10px;
+    font-size:15px;
+    border:none;
+     border: 2px solid #667eea;
+            background: transparent;
+}
         .hero-section h2 {
             font-size: 2.5rem;
             margin-bottom: 1rem;
@@ -152,7 +160,7 @@ font-size:15px;
             font-weight: 700;
             margin-bottom: 0.5rem;
             background: linear-gradient(135deg, #667eea, #764ba2);
-            -webkit-background-clip: text;
+       -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
