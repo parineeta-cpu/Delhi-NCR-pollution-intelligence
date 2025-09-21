@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delhi NCR Pollution Intelligence Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" rel="stylesheet">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="logo">
+                <i class="fas fa-wind"></i>
+                <h1>Delhi Air Intelligence</h1>
+            </div>
+            <div class="nav-links">
+                <a href="#dashboard"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="#forecast"><i class="fas fa-cloud-sun"></i> Forecast</a>
+                <a href="#routes"><i class="fas fa-route"></i> Safe Routes</a>
+                <a href="#community"><i class="fas fa-users"></i> Community</a>
+                <a href="#alerts"><i class="fas fa-bell"></i> Alerts</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-section">
+            <h2>Real-time Air Quality Intelligence for Delhi NCR</h2>
+            <p>AI-powered pollution monitoring, forecasting, and personalized health recommendations using satellite data, IoT sensors, and machine learning.</p>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-gauge-high"></i>
+                    <h3>Current AQI Status</h3>
+                </div>
+                <div class="aqi-display">
+                    <input type="search" placeholder="Enter your city or station name" class="search-bar">
+                    <button class="submitBtn">Search</button>
+                    <p id="result"></p>
+                    <div class="aqi-value" id="currentAQI">156</div>
+                    <div class="aqi-status" id="aqiStatus">Unhealthy</div>
+                    <div class="location-selector">
+                        <button class="location-btn active" onclick="selectLocation('Delhi')">Delhi</button>
+                        <button class="location-btn" onclick="selectLocation('Gurgaon')">Gurgaon</button>
+                        <button class="location-btn" onclick="selectLocation('Noida')">Noida</button>
+                        <button class="location-btn" onclick="selectLocation('Faridabad')">Faridabad</button>
+                    </div>
+                </div>
+                
+                <div class="health-alert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>Health Alert:</strong> Sensitive groups should avoid outdoor activities. Use N95 masks when stepping out.
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>AI-Powered Forecast</h3>
+                </div>
+                <p style="margin-bottom: 1rem; color: #666;">Machine Learning predictions based on meteorological data, satellite imagery, and historical patterns</p>
+                
+                <div class="forecast-grid">
+                    <div class="forecast-item">
+                        <div class="forecast-day">Today</div>
+                        <div class="forecast-aqi" style="color: #ff6b6b;">168</div>
+                        <div class="forecast-status">Unhealthy</div>
+                    </div>
+                    <div class="forecast-item">
+                        <div class="forecast-day">Tomorrow</div>
+                        <div class="forecast-aqi" style="color: #ffa726;">142</div>
+                        <div class="forecast-status">Moderate</div>
+                    </div>
+                    <div class="forecast-item">
+                        <div class="forecast-day">Day 3</div>
+                        <div class="forecast-aqi" style="color: #66bb6a;">95</div>
+                        <div class="forecast-status">Satisfactory</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card full-width-card">
+            <div class="card-header">
+                <i class="fas fa-map-marked-alt"></i>
+                <h3>Hyperlocal Air Quality Map</h3>
+            </div>
+            <div class="map-container" id="map"></div>
+        </div>
+
+        <div class="route-suggestion">
+            <h4><i class="fas fa-route"></i> Recommended Safe Route</h4>
+            <p><strong>From:</strong> Connaught Place → <strong>To:</strong> Cyber City</p>
+            <p>Route via Ring Road (AQI: 134) instead of NH-8 (AQI: 178) - 24% cleaner air quality</p>
+            <button class="btn-primary" style="margin-top: 1rem;">
+                <i class="fas fa-navigation"></i> Start Navigation
+            </button>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-satellite"></i>
+                </div>
+                <h3>Satellite Data Integration</h3>
+                <p>Real-time data from NASA MODIS, ISRO satellites, and European Copernicus for comprehensive pollution monitoring</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3>AI/ML Predictions</h3>
+                <p>Advanced machine learning models for 24-72 hour forecasts and seasonal trend analysis using meteorological patterns</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-heart-pulse"></i>
+                </div>
+                <h3>Personalized Health Alerts</h3>
+                <p>Customized recommendations based on age, health conditions, and activity levels with real-time notifications</p>
+            </div>
+        </div>
+
+        <div class="data-sources">
+            <h3><i class="fas fa-database"></i> Data Sources</h3>
+            <p>Our AI system integrates data from multiple reliable sources for maximum accuracy:</p>
+            <div class="source-badges">
+                <div class="source-badge">
+                    <i class="fas fa-satellite"></i> NASA MODIS
+                </div>
+                <div class="source-badge">
+                    <i class="fas fa-globe"></i> ISRO Satellites
+                </div>
+                <div class="source-badge">
+                    <i class="fas fa-chart-bar"></i> CPCB Monitors
+                </div>
+                <div class="source-badge">
+                    <i class="fas fa-wifi"></i> IoT Sensors
+                </div>
+                <div class="source-badge">
+                    <i class="fas fa-cloud"></i> Weather APIs
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-chart-area"></i>
+                    <h3>Pollution Trends</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="pollutionChart"></canvas>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-users"></i>
+                    <h3>Community Updates</h3>
+                </div>
+                <div class="social-feed">
+                    <div class="social-post">
+                        <strong>Delhi Govt Alert:</strong> Odd-even scheme implemented due to severe air quality. Plan your travel accordingly.
+                        <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">2 hours ago</div>
+                    </div>
+                    <div class="social-post">
+                        <strong>Health Advisory:</strong> Schools in NCR to remain closed tomorrow due to poor air quality.
+                        <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">4 hours ago</div>
+                    </div>
+                    <div class="social-post">
+                        <strong>User Report:</strong> Heavy smog in Gurgaon area. Visibility reduced. Drive carefully!
+                        <div style="color: #666; font-size: 0.9rem; margin-top: 0.5rem;">6 hours ago</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./script.js"> 
+    </script>
+</body>
+</html>
