@@ -70,22 +70,7 @@ const map = L.map('map').setView([28.6139, 77.2090], 10);
         closeBtn.addEventListener('click', () => {
       document.querySelector(".nav-links").classList.remove('view');
     });
-        function selectLocation(location) {
-            document.querySelectorAll('.location-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const aqiData = {
-                'Delhi': {aqi: 156, status: 'Unhealthy', color: '#ff6b6b'},
-                'Gurgaon': {aqi: 142, status: 'Moderate', color: '#ffa726'},
-                'Noida': {aqi: 134, status: 'Moderate', color: '#ffa726'},
-                'Faridabad': {aqi: 178, status: 'Unhealthy', color: '#ff6b6b'}
-            };
-            
-            const data = aqiData[location];
-            document.getElementById('currentAQI').textContent = data.aqi;
-            document.getElementById('currentAQI').style.color = data.color;
-            document.getElementById('aqiStatus').textContent = data.status;
-        }
+       
 
     
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -102,17 +87,47 @@ const map = L.map('map').setView([28.6139, 77.2090], 10);
         
 const submitBtn=document.querySelector(".submitBtn");
 function lang(){
-
-const KEY = '579b464db66ec23bdd0000014ee736473f594fbd6cc37df5678f0a69';
-
-const AQI_RESOURCE_ID = '3b01bcb8-0b14-4abf-b6f2-c1bfd384ba69';
-const url = fetch(`https://api.data.gov.in/resource/${AQI_RESOURCE_ID}?api-key=${KEY}&format=json`);
-
-url.then((res)=>{
+let searchBar=document.querySelector(".search-bar").value;
+const currentAQI=document.querySelector("#currentAQI");
+const APIKEY = "208820849d23370b25eca042f1d31e16394efcf9"
+ 
+fetch(`https://api.waqi.info/feed/${searchBar}/?token=${APIKEY}`)
+.then((res)=>{
     return res.json();
 }).then((data)=>{
-    console.log(data);
+    if(data.status==="ok"){
+         console.log(data.data.aqi);
+     currentAQI.innerText=data.data.aqi;
+    }else{
+        console.log("city level data not found, using geo API");
+fetch(`https://nominatim.openstreetmap.org/search?city=${searchBar}&format=json&limit=1`)
+.then((res)=>{
+    return res.json();
+}).then((data)=>{
+ console.log(data[0].name);
+    let LAT = data[0].lat;
+    let LON = data[0].lon;
+    fetch(`https://api.waqi.info/feed/geo:${LAT};${LON}/?token=${APIKEY}`).then((res)=>{
+    return res.json();
+}).then((data)=>{
+     currentAQI.innerText=data.data.aqi;
 })
-
+    }
+    )
 }
+})
+}
+function selectLocation(event){
+ const currentAQI=document.querySelector("#currentAQI");
+const APIKEY = "208820849d23370b25eca042f1d31e16394efcf9"
+let searchBar=document.querySelector(".search-bar");
+searchBar.value=event;
+fetch(`https://api.waqi.info/feed/${event}/?token=${APIKEY}`).then((res)=>{
+    return res.json();
+}).then((data)=>{
+    console.log(data.data.aqi);
+     currentAQI.innerText=data.data.aqi;
+})   
+}
+
 submitBtn.addEventListener("click",lang)

@@ -88,6 +88,7 @@
         }
 .search-bar {
 margin-bottom:30px;
+
 width:100%;
 padding:8px 20px;
 border:none;
@@ -429,6 +430,9 @@ font-size:15px;
                  background: rgba(255, 255, 255, 0.95);
                  height:100vh;
                  padding:15px;
+            }
+            .search-bar{
+                font-size:12px;
             }
             .hero-section h2 {
                 font-size: 2rem;
